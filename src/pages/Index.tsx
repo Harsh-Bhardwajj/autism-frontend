@@ -58,8 +58,25 @@ const Index = () => {
     const Age = Number(formData.Age);
 
     const newFormData = {
-      ...formData,
-      Age,
+      isToddler: formData.isToddler,
+      Age: formData.isToddler
+        ? Number(formData.Age) * 12 // 🔥 convert years → months
+        : Number(formData.Age),
+
+      Gender: formData.Gender,
+      Jaundice: formData.Jaundice,
+      Family_History_ASD: formData.Family_History_ASD,
+
+      A1_Score: formData.A1_Score,
+      A2_Score: formData.A2_Score,
+      A3_Score: formData.A3_Score,
+      A4_Score: formData.A4_Score,
+      A5_Score: formData.A5_Score,
+      A6_Score: formData.A6_Score,
+      A7_Score: formData.A7_Score,
+      A8_Score: formData.A8_Score,
+      A9_Score: formData.A9_Score,
+      A10_Score: formData.A10_Score,
     };
 
     try {
@@ -72,7 +89,9 @@ const Index = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to analyze screening data");
+        const err = await response.text();
+        console.error("Backend error:", err);
+        throw new Error(err);
       }
 
       const data: Result[] = await response.json();
